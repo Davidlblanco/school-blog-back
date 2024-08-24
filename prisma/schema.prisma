@@ -1,0 +1,46 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PSQL_URL")
+}
+
+// Create the ENUM type
+enum UserType {
+  ADMIN
+  TEACHER
+  STUDENT
+}
+
+// Create the articles table
+model Article {
+  id       String   @id @default(uuid()) @db.Uuid
+  date     DateTime @default(now()) @db.Timestamptz(6)
+  title    String   @db.Text
+  content  String   @db.Text
+  file     Bytes?   // Column to store file data (optional)
+  filePath String?  @db.Text // Column to store the file path or URL (optional)
+  active   Boolean  @default(true)
+  creator_id String   @db.Uuid
+  creator    User     @relation(fields: [creator_id], references: [id])
+}
+
+// Create the user table
+model User {
+  id       String   @id @default(uuid()) @db.Uuid
+  name     String   @db.VarChar(255)
+  email    String   @db.VarChar(255)
+  userName String   @db.Text
+  password Bytes    @db.ByteA
+  active   Boolean  @default(true)
+  type     UserType
+  articles Article[]
+}
+
+
