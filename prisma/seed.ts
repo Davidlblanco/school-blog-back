@@ -4,6 +4,12 @@ import { v4 as uuidv4 } from 'uuid';
 const prisma = new PrismaClient();
 
 async function main() {
+  const articleExampleExists = await prisma.article.count();
+  if (articleExampleExists) {
+    console.log('Your db was already seeded! 🐣');
+    return;
+  }
+
   // Create a user
   const user = await prisma.user.create({
     data: {
@@ -18,7 +24,7 @@ async function main() {
   });
 
   // Create an article
-  const article = await prisma.article.create({
+  await prisma.article.create({
     data: {
       id: uuidv4(), // Generate a valid UUID
       date: new Date(),
@@ -31,7 +37,7 @@ async function main() {
     },
   });
 
-  console.log({ user, article });
+  console.log('Postgres was succesfully seeded! 🌱');
 }
 
 main()

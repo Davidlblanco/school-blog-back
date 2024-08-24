@@ -18,13 +18,16 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed": "ts-node prisma/seed.ts"
+    "localseed": "dotenv -e .env.local -- npx prisma migrate dev --name init && dotenv -e .env.local -- ts-node prisma/seed.ts",
+    "localstudio": "dotenv -e .env.local -- npx prisma studio",
+    "dockerseed": "dotenv -e .env.docker -- npx prisma migrate deploy && dotenv -e .env.docker -- ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
     "@prisma/client": "^5.18.0",
+    "dotenv-cli": "^7.4.2",
     "reflect-metadata": "^0.2.0",
     "rxjs": "^7.8.1",
     "uuid": "^10.0.0"

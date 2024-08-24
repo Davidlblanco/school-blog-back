@@ -93,3 +93,6 @@ CREATE DATABASE blog
 npx prisma migrate dev --name init
 npm run seed
 npx prisma studio
+
+\*\*\* docker cleaning
+docker compose down --rmi all --volumes --remove-orphans

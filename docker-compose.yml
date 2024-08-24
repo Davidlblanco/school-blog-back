@@ -1,0 +1,32 @@
+services:
+  blog-psql:
+    image: postgres
+    container_name: blog-psql-docker
+    environment:
+      POSTGRES_PASSWORD: education
+      POSTGRES_DB: blog
+    volumes:
+      - blog:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: school-blog-back
+    restart: always
+    env_file:
+      - .env.docker
+    ports:
+      - '3000:3000'
+    depends_on:
+      blog-psql:
+        condition: service_healthy
+    volumes:
+      - ./src:/app/src
+
+volumes:
+  blog:
