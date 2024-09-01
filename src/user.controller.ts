@@ -3,6 +3,8 @@ import {
   Controller,
   Delete,
   Get,
+  HttpException,
+  HttpStatus,
   Param,
   Patch,
   Post,
@@ -10,19 +12,33 @@ import {
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
-import { UserFromClient } from './project.types';
+import { CreateUserDto } from './CreateUserDto';
 
 @Controller('/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
+
   private passwordBuffer(password: string) {
     const encoder = new TextEncoder();
     const passwordUint8Array = encoder.encode(password);
     const passwordBuffer = Buffer.from(passwordUint8Array);
     return passwordBuffer;
   }
+
+  private throwExeption(e: any) {
+    throw new HttpException(
+      {
+        status: HttpStatus.UNPROCESSABLE_ENTITY,
+        error: e.meta ? e.meta : e,
+      },
+      HttpStatus.UNPROCESSABLE_ENTITY,
+    );
+  }
+
   @Get(':id')
-  async getUser(@Param('id') id: string): Promise<Partial<User> | any> {
+  async getUser(
+    @Param('id') id: string,
+  ): Promise<Partial<User> | HttpException> {
     try {
       const user = await this.userService.user({
         id,
@@ -30,7 +46,7 @@ export class UserController {
       delete user.password;
       return user;
     } catch (e) {
-      return e.meta;
+      this.throwExeption(e);
     }
   }
 
@@ -41,7 +57,7 @@ export class UserController {
     @Query('cursor') cursor?: string,
     @Query('where') where?: string,
     @Query('orderBy') orderBy?: string,
-  ): Promise<User[] | any> {
+  ): Promise<User[] | HttpException> {
     try {
       const params = {
         skip: skip ? parseInt(skip) : undefined,
@@ -54,15 +70,25 @@ export class UserController {
       users.forEach((user) => delete user.password);
       return users;
     } catch (e) {
-      return e.meta;
+      this.throwExeption(e);
+    }
+  }
+
+  @Delete(':id')
+  async deleteUser(@Param('id') id: string): Promise<string | HttpException> {
+    try {
+      await this.userService.deleteUser({ id });
+      return 'User succesfully deleted!';
+    } catch (e) {
+      this.throwExeption(e);
     }
   }
 
   @Post()
   async createUser(
     @Body()
-    body: UserFromClient,
-  ): Promise<Partial<User> | any> {
+    body: CreateUserDto,
+  ): Promise<Partial<User> | HttpException> {
     try {
       const passwordBuffer = this.passwordBuffer(body.password);
       const create = await this.userService.createUser({
@@ -71,17 +97,7 @@ export class UserController {
       });
       return { id: create.id, name: create.name };
     } catch (e) {
-      return e.meta;
-    }
-  }
-
-  @Delete(':id')
-  async deleteUser(@Param('id') id: string): Promise<string | any> {
-    try {
-      await this.userService.deleteUser({ id });
-      return 'User succesfully deleted!';
-    } catch (e) {
-      return e.meta;
+      this.throwExeption(e);
     }
   }
 
@@ -89,8 +105,8 @@ export class UserController {
   async updateUser(
     @Param('id') id: string,
     @Body()
-    body: UserFromClient,
-  ): Promise<Partial<User> | any> {
+    body: Partial<CreateUserDto>,
+  ): Promise<Partial<User> | HttpException> {
     try {
       const passwordBuffer = this.passwordBuffer(body.password);
       const updatedUser = await this.userService.updateUser({
@@ -99,7 +115,7 @@ export class UserController {
       });
       return { id: updatedUser.id, name: updatedUser.name };
     } catch (e) {
-      return e;
+      this.throwExeption(e);
     }
   }
 }
