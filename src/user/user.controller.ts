@@ -9,21 +9,17 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './CreateUserDto';
+import { passwordBuffer } from 'src/lib/paswordBuffer';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Controller('/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
-
-  private passwordBuffer(password: string) {
-    const encoder = new TextEncoder();
-    const passwordUint8Array = encoder.encode(password);
-    const passwordBuffer = Buffer.from(passwordUint8Array);
-    return passwordBuffer;
-  }
 
   private throwExeption(e: any) {
     throw new HttpException(
@@ -75,6 +71,7 @@ export class UserController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   async deleteUser(@Param('id') id: string): Promise<string | HttpException> {
     try {
       await this.userService.deleteUser({ id });
@@ -85,15 +82,17 @@ export class UserController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
   async createUser(
     @Body()
     body: CreateUserDto,
   ): Promise<Partial<User> | HttpException> {
     try {
-      const passwordBuffer = this.passwordBuffer(body.password);
+      const passWordBuffer = passwordBuffer(body.password);
+
       const create = await this.userService.createUser({
         ...body,
-        password: passwordBuffer,
+        password: passWordBuffer,
       });
       return { id: create.id, name: create.name };
     } catch (e) {
@@ -102,16 +101,17 @@ export class UserController {
   }
 
   @Patch(':id')
+  @UseGuards(AuthGuard)
   async updateUser(
     @Param('id') id: string,
     @Body()
     body: Partial<CreateUserDto>,
   ): Promise<Partial<User> | HttpException> {
     try {
-      const passwordBuffer = this.passwordBuffer(body.password);
+      const passWordBuffer = passwordBuffer(body.password);
       const updatedUser = await this.userService.updateUser({
         where: { id },
-        data: { ...body, password: passwordBuffer },
+        data: { ...body, password: passWordBuffer },
       });
       return { id: updatedUser.id, name: updatedUser.name };
     } catch (e) {
