@@ -1,5 +1,5 @@
 export function passwordDecoder(password: AllowSharedBufferSource) {
-  const encoder = new TextDecoder();
-  const decodedPassword = encoder.decode(password);
+  const decoder = new TextDecoder();
+  const decodedPassword = decoder.decode(password);
   return decodedPassword;
 }
