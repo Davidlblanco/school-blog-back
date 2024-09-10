@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
-import { passwordBuffer } from 'src/lib/paswordBuffer';
+import { passwordDecoder } from 'src/lib/paswordDecoder';
 
 @Injectable()
 export class AuthService {
@@ -17,8 +17,10 @@ export class AuthService {
     const user = await this.userService.users({
       where: { userName },
     });
-    const passWordBuffer = passwordBuffer(pass);
-    if (user[0]?.password !== passWordBuffer) {
+
+    const passWordDecoder = passwordDecoder(user[0]?.password);
+
+    if (passWordDecoder !== pass) {
       throw new UnauthorizedException();
     }
     const payload = { sub: user[0].id, username: user[0].name };
