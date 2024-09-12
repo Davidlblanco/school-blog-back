@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import { UserController } from './user.controller';
 import { PrismaService } from '../prisma.service';
 import { JwtModule } from '@nestjs/jwt';
+import { ArticlesService } from './articles.service';
+import { ArticleController } from './articles.controller';
 
 @Module({
   imports: [
@@ -11,7 +11,7 @@ import { JwtModule } from '@nestjs/jwt';
       signOptions: { expiresIn: '24h' },
     }),
   ],
-  controllers: [UserController],
-  providers: [UserService, PrismaService],
+  controllers: [ArticleController],
+  providers: [ArticlesService, PrismaService],
 })
-export class UserModule {}
+export class ArticlesModule {}

@@ -28,7 +28,7 @@ model Article {
   filePath String?  @db.Text // Column to store the file path or URL (optional)
   active   Boolean  @default(true)
   creator_id String   @db.Uuid
-  creator    User     @relation(fields: [creator_id], references: [id])
+  creator    User?     @relation(fields: [creator_id], references: [id])
 }
 
 // Create the user table
