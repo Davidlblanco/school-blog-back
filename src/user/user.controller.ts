@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  NotFoundException,
   HttpException,
   HttpStatus,
   Param,
@@ -16,6 +17,7 @@ import { User } from '@prisma/client';
 import { CreateUserDto } from './CreateUserDto';
 import { passwordBuffer } from 'src/lib/paswordBuffer';
 import { AuthGuard } from '../auth/auth.guard';
+import { Roles } from 'src/lib/roles';
 
 @Controller('/users')
 export class UserController {
@@ -32,21 +34,24 @@ export class UserController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @Roles('ADMIN')
   async getUser(
     @Param('id') id: string,
   ): Promise<Partial<User> | HttpException> {
-    try {
-      const user = await this.userService.user({
-        id,
-      });
-      delete user.password;
-      return user;
-    } catch (e) {
-      this.throwExeption(e);
+    const user = await this.userService.user({
+      id,
+    });
+    if (!user) {
+      throw new NotFoundException();
     }
+    delete user.password;
+    return user;
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @Roles('ADMIN')
   async getUsers(
     @Query('skip') skip?: string,
     @Query('take') take?: string,
@@ -72,6 +77,7 @@ export class UserController {
 
   @Delete(':id')
   @UseGuards(AuthGuard)
+  @Roles('ADMIN')
   async deleteUser(@Param('id') id: string): Promise<string | HttpException> {
     try {
       await this.userService.deleteUser({ id });
@@ -83,6 +89,7 @@ export class UserController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @Roles('ADMIN')
   async createUser(
     @Body()
     body: CreateUserDto,
@@ -102,6 +109,7 @@ export class UserController {
 
   @Patch(':id')
   @UseGuards(AuthGuard)
+  @Roles('ADMIN')
   async updateUser(
     @Param('id') id: string,
     @Body()

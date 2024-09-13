@@ -4,11 +4,13 @@ import {
   Delete,
   Get,
   HttpException,
+  NotFoundException,
   HttpStatus,
   Param,
   Patch,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { Article } from '@prisma/client';
@@ -16,6 +18,7 @@ import { Article } from '@prisma/client';
 import { AuthGuard } from '../auth/auth.guard';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './CreateArticlesDto';
+import { Roles } from 'src/lib/roles';
 
 @Controller('/articles')
 export class ArticleController {
@@ -32,18 +35,23 @@ export class ArticleController {
   }
 
   @Get(':id')
+  @UseGuards(AuthGuard)
+  @Roles('ADMIN', 'TEACHER', 'STUDENT')
   async getArticle(@Param('id') id: string): Promise<Article | HttpException> {
-    try {
-      const article = await this.articleService.article({
-        id,
-      });
-      return article;
-    } catch (e) {
-      this.throwExeption(e);
+    const article = await this.articleService.article({
+      id,
+    });
+
+    if (!article) {
+      throw new NotFoundException();
     }
+
+    return article;
   }
 
   @Get()
+  @UseGuards(AuthGuard)
+  @Roles('ADMIN', 'TEACHER', 'STUDENT')
   async getArticles(
     @Query('skip') skip?: string,
     @Query('take') take?: string,
@@ -69,6 +77,7 @@ export class ArticleController {
 
   @Delete(':id')
   @UseGuards(AuthGuard)
+  @Roles('ADMIN', 'TEACHER')
   async deleteArticle(
     @Param('id') id: string,
   ): Promise<string | HttpException> {
@@ -82,11 +91,15 @@ export class ArticleController {
 
   @Post()
   @UseGuards(AuthGuard)
+  @Roles('ADMIN', 'TEACHER')
   async createArticle(
     @Body()
     body: CreateArticleDto,
+    @Request() req: any,
   ): Promise<Article | HttpException> {
     try {
+      const user = req.user;
+      body.creator_id = user.id;
       const create = await this.articleService.createArticle(body);
       return create;
     } catch (e) {
@@ -96,12 +109,16 @@ export class ArticleController {
 
   @Patch(':id')
   @UseGuards(AuthGuard)
+  @Roles('ADMIN', 'TEACHER')
   async updateArticle(
     @Param('id') id: string,
     @Body()
     body: Partial<CreateArticleDto>,
+    @Request() req: any,
   ): Promise<Article | HttpException> {
     try {
+      const user = req.user;
+      body.creator_id = user.id;
       const updatedArticle = await this.articleService.updateArticle({
         where: { id },
         data: body,
