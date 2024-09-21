@@ -17,10 +17,10 @@ export class AuthService {
     const user = await this.userService.users({
       where: { userName },
     });
-    console.log('returned user', userName, user);
+
     const passWordDecoder = passwordDecoder(user[0]?.password);
 
-    if (passWordDecoder !== pass) {
+    if (passWordDecoder !== pass || user.length > 1) {
       throw new UnauthorizedException();
     }
     const payload = {

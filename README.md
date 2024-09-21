@@ -96,3 +96,6 @@ npx prisma studio
 
 \*\*\* docker cleaning
 docker compose down --rmi all --volumes --remove-orphans
+
+para criar um banco local sh create-local-db.sh
+para rodar os testes obrigatoria mente deve se ter um .env.local e um docker rodando com o banco

@@ -3,7 +3,6 @@ import {
   Controller,
   Delete,
   Get,
-  NotFoundException,
   HttpException,
   HttpStatus,
   Param,
@@ -15,15 +14,16 @@ import {
 import { UserService } from './user.service';
 import { User } from '@prisma/client';
 import { CreateUserDto } from './CreateUserDto';
-import { passwordBuffer } from 'src/lib/paswordBuffer';
+import { passwordBuffer } from '../lib/paswordBuffer';
 import { AuthGuard } from '../auth/auth.guard';
-import { Roles } from 'src/lib/roles';
+import { Roles } from '../lib/roles';
 
 @Controller('/users')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   private throwExeption(e: any) {
+    console.log('error', e);
     throw new HttpException(
       {
         status: HttpStatus.UNPROCESSABLE_ENTITY,
@@ -39,14 +39,15 @@ export class UserController {
   async getUser(
     @Param('id') id: string,
   ): Promise<Partial<User> | HttpException> {
-    const user = await this.userService.user({
-      id,
-    });
-    if (!user) {
-      throw new NotFoundException();
+    try {
+      const user = await this.userService.user({
+        id,
+      });
+      delete user.password;
+      return user;
+    } catch (e) {
+      this.throwExeption(e);
     }
-    delete user.password;
-    return user;
   }
 
   @Get()
@@ -96,7 +97,6 @@ export class UserController {
   ): Promise<Partial<User> | HttpException> {
     try {
       const passWordBuffer = passwordBuffer(body.password);
-
       const create = await this.userService.createUser({
         ...body,
         password: passWordBuffer,

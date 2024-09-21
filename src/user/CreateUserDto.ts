@@ -1,4 +1,10 @@
-import { IsEmail, IsNotEmpty, Matches, IsEnum } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  Matches,
+  IsEnum,
+  IsOptional,
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsEmail()
@@ -21,4 +27,7 @@ export class CreateUserDto {
     message: 'Type must be either ADMIN, TEACHER, or STUDENT',
   })
   type: 'ADMIN' | 'TEACHER' | 'STUDENT';
+
+  @IsOptional()
+  active: boolean;
 }

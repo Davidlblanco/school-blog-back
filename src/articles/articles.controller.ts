@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   HttpException,
-  NotFoundException,
   HttpStatus,
   Param,
   Patch,
@@ -38,15 +37,15 @@ export class ArticleController {
   @UseGuards(AuthGuard)
   @Roles('ADMIN', 'TEACHER', 'STUDENT')
   async getArticle(@Param('id') id: string): Promise<Article | HttpException> {
-    const article = await this.articleService.article({
-      id,
-    });
+    try {
+      const article = await this.articleService.article({
+        id,
+      });
 
-    if (!article) {
-      throw new NotFoundException();
+      return article;
+    } catch (e) {
+      this.throwExeption(e);
     }
-
-    return article;
   }
 
   @Get()
