@@ -23,7 +23,6 @@ export class UserController {
   constructor(private readonly userService: UserService) {}
 
   private throwExeption(e: any) {
-    console.log('error', e);
     throw new HttpException(
       {
         status: HttpStatus.UNPROCESSABLE_ENTITY,

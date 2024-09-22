@@ -17,7 +17,7 @@ import { Article } from '@prisma/client';
 import { AuthGuard } from '../auth/auth.guard';
 import { ArticlesService } from './articles.service';
 import { CreateArticleDto } from './CreateArticlesDto';
-import { Roles } from 'src/lib/roles';
+import { Roles } from '../lib/roles';
 
 @Controller('/articles')
 export class ArticleController {
@@ -99,7 +99,9 @@ export class ArticleController {
     try {
       const user = req.user;
       body.creator_id = user.id;
+
       const create = await this.articleService.createArticle(body);
+
       return create;
     } catch (e) {
       this.throwExeption(e);

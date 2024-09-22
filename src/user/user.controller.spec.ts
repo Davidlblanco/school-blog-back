@@ -92,3 +92,5 @@ describe('UserController', () => {
     });
   });
 });
+
+export const createTestUser = async () => {};
