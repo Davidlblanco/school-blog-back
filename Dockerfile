@@ -10,4 +10,5 @@ RUN npm install
 
 RUN npm run build
 
-CMD ["sh", "-c", "npx prisma generate && npx prisma migrate deploy && npm run dockerseed && npm start"]
+# trocar o npm start por node 
+CMD ["sh", "-c", "npx prisma generate && npm run dockerseed && node dist/src/main.js"]
