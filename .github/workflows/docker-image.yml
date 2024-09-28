@@ -18,8 +18,8 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "davidlblanco" --password-stdin
 
       - name: Set Docker image tag
-          id: vars
-          run: echo "IMAGE_TAG=school-blog-back:$(date +%s)" >> $GITHUB_ENV
+        id: vars
+        run: echo "IMAGE_TAG=school-blog-back:$(date +%s)" >> $GITHUB_ENV
 
       - name: Build the Docker image
         run: docker build . --file Dockerfile --tag school-blog-back:${{ env.IMAGE_TAG }}
