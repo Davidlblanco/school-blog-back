@@ -25,9 +25,10 @@ jobs:
           echo "WT_SECRET=${{ secrets.WT_SECRET }}" >> $GITHUB_ENV
 
       - name: Build the Docker image
-        run: docker build . --file Dockerfile-git --tag ${{ env.IMAGE_TAG }}
+        run: docker build -t davidlblanco/${{IMAGE_TAG}} .
 
       - name: Push Docker Image to Docker Hub
-        run: docker push ${{ env.IMAGE_TAG }}
-# docker build . --file Dockerfile-git --tag school-blog-back:test
-# docker push school-blog-back:test
+        run: docker push davidlblanco/${{IMAGE_TAG}}
+#  docker build -t davidlblanco/school-blog-back:test .
+# docker push davidlblanco/school-blog-back:test
+
