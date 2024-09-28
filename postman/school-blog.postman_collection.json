@@ -1,0 +1,928 @@
+{
+	"info": {
+		"_postman_id": "62a3fa11-698d-4a1c-bb07-ef88d931b38a",
+		"name": "school-blog",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "6177562"
+	},
+	"item": [
+		{
+			"name": "users",
+			"item": [
+				{
+					"name": "users",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"Raela Blanco\",\n    \"email\": \"r.blanco@example.com\",\n    \"userName\": \"rblanco\",\n    \"password\":\"12345a$6\",\n    \"active\": true,\n    \"type\": \"STUDENT\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/"
+					},
+					"response": [
+						{
+							"name": "users",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"12345a$6\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/users/"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "67"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"43-zKDVDAaG6xd6Lvw04Cz4t/ex9qc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:19:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"a5130930-14a8-4b41-9026-9c773264c16c\",\n    \"name\": \"David Blanco\"\n}"
+						}
+					]
+				},
+				{
+					"name": "users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/users/?where={\"active\":true}",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"users",
+								""
+							],
+							"query": [
+								{
+									"key": "where",
+									"value": "{\"active\":true}"
+								},
+								{
+									"key": "skip",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "take",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "{\"name\":\"asc\"}",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "{\"email\":\"desc\"}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "users/:id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/fd729cfcb-9a52-458f-b809-278990a18f01"
+					},
+					"response": []
+				},
+				{
+					"name": "users/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"rafa Blanco\",\n    \"email\": \"r.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456$a\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/f9f02d87-c0e7-4a16-b38f-ddb36079b262"
+					},
+					"response": [
+						{
+							"name": "users/:id",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456$a\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/users/a5130930-14a8-4b41-9026-9c773264c16c"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "67"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"43-zKDVDAaG6xd6Lvw04Cz4t/ex9qc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:20:40 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"a5130930-14a8-4b41-9026-9c773264c16c\",\n    \"name\": \"David Blanco\"\n}"
+						}
+					]
+				},
+				{
+					"name": "users/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/users/f9f02d87-c0e7-4a16-b38f-ddb36079b262"
+					},
+					"response": [
+						{
+							"name": "users/:id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/users/a5130930-14a8-4b41-9026-9c773264c16c"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "25"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"19-eIXwsis8/TZFuajyOyspow6mFx8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:21:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "User succesfully deleted!"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "articles",
+			"item": [
+				{
+					"name": "articles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\n        \"title\": \"Test Article by teacher \",\n        \"content\": \"This is the content of the first articlcxe.\",\n        \"file\": null,\n        \"filePath\": null,\n        \"active\": true\n        // \"creator_id\": \"if you try to send it, i will use the id in your authentication\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/articles/"
+					},
+					"response": [
+						{
+							"name": "articles",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "   {\n        \n        \n        \"title\": \"Test Article \",\n        \"content\": \"This is the content of the first article.\",\n        \"file\": null,\n        \"filePath\": null,\n        \"active\": true,\n        \"creator_id\": \"45f6e5fb-2414-4229-91f5-b59baa6baf81\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/articles/"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "251"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fb-WNMnyQ3Ad0tSw9DdjGwzTUJXW+Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:08:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e856462b-6657-4149-bbe6-3d7992b2be63\",\n    \"date\": \"2024-09-12T20:08:52.164Z\",\n    \"title\": \"Test Article \",\n    \"content\": \"This is the content of the first article.\",\n    \"file\": null,\n    \"filePath\": null,\n    \"active\": true,\n    \"creator_id\": \"45f6e5fb-2414-4229-91f5-b59baa6baf81\"\n}"
+						}
+					]
+				},
+				{
+					"name": "articles",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/articles/",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"articles",
+								""
+							],
+							"query": [
+								{
+									"key": "where",
+									"value": "{\"active\":true}",
+									"disabled": true
+								},
+								{
+									"key": "skip",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "take",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "{\"name\":\"asc\"}",
+									"disabled": true
+								},
+								{
+									"key": "orderBy",
+									"value": "{\"email\":\"desc\"}",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "articles",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/articles/",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"articles",
+										""
+									],
+									"query": [
+										{
+											"key": "where",
+											"value": "{\"active\":true}",
+											"disabled": true
+										},
+										{
+											"key": "skip",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "take",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "{\"name\":\"asc\"}",
+											"disabled": true
+										},
+										{
+											"key": "orderBy",
+											"value": "{\"email\":\"desc\"}",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "253"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fd-hkxucF/keXIL50HsWpN3Cr4IKNI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 19:48:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"8e97cd82-060e-40c9-aa01-6f8c5b5d14f2\",\n        \"date\": \"2024-09-10T19:48:59.264Z\",\n        \"title\": \"First Article\",\n        \"content\": \"This is the content of the first article.\",\n        \"file\": null,\n        \"filePath\": null,\n        \"active\": true,\n        \"creator_id\": \"45f6e5fb-2414-4229-91f5-b59baa6baf81\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "articles/:id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/articles/3b10165a-f31c-47bf-882c-3404d398015"
+					},
+					"response": [
+						{
+							"name": "articles/:id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/articles/e856462b-6657-4149-bbe6-3d7992b2be63"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "251"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"fb-WNMnyQ3Ad0tSw9DdjGwzTUJXW+Q\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:12:12 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e856462b-6657-4149-bbe6-3d7992b2be63\",\n    \"date\": \"2024-09-12T20:08:52.164Z\",\n    \"title\": \"Test Article \",\n    \"content\": \"This is the content of the first article.\",\n    \"file\": null,\n    \"filePath\": null,\n    \"active\": true,\n    \"creator_id\": \"45f6e5fb-2414-4229-91f5-b59baa6baf81\"\n}"
+						}
+					]
+				},
+				{
+					"name": "articles/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "   {\n        \n        \n        \"title\": \"Test Article 1234 by teacher\",\n        \"content\": \"This is the content of the first article.\",\n        \"file\": null,\n        \"filePath\": null,\n        \"active\": true\n        // \"creator_id\": \"if you try to send it, i will use the id in your authentication\"\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/articles/3b10165a-f31c-47bf-882c-3404d3980158"
+					},
+					"response": [
+						{
+							"name": "articles/:id",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "   {\n        \n        \n        \"title\": \"Test Article 123 \",\n        \"content\": \"This is the content of the first article.\",\n        \"file\": null,\n        \"filePath\": null,\n        \"active\": true,\n        \"creator_id\": \"45f6e5fb-2414-4229-91f5-b59baa6baf81\"\n    }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/articles/e856462b-6657-4149-bbe6-3d7992b2be63"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "255"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"ff-E/+b7yM2x+ao5BEel5vMOxc5C04\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:17:07 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"e856462b-6657-4149-bbe6-3d7992b2be63\",\n    \"date\": \"2024-09-12T20:08:52.164Z\",\n    \"title\": \"Test Article 123 \",\n    \"content\": \"This is the content of the first article.\",\n    \"file\": null,\n    \"filePath\": null,\n    \"active\": true,\n    \"creator_id\": \"45f6e5fb-2414-4229-91f5-b59baa6baf81\"\n}"
+						}
+					]
+				},
+				{
+					"name": "articles/:id",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{jwt-token}}"
+							}
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{baseUrl}}/articles/3b10165a-f31c-47bf-882c-3404d3980158"
+					},
+					"response": [
+						{
+							"name": "articles/:id",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \n    \"name\": \"David Blanco\",\n    \"email\": \"d.blanco@example.com\",\n    \"userName\": \"dblanco\",\n    \"password\":\"123456\",\n    \"active\": true,\n    \"type\": \"ADMIN\"\n  }",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/articles/e856462b-6657-4149-bbe6-3d7992b2be63"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "28"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1c-3HP+ImgroR6XpqqQaIIR+pwJJxU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 12 Sep 2024 20:18:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "Article succesfully deleted!"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "login - admin",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"if (pm.response.code === 200) {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    ",
+							"    var token = jsonData[\"access_token\"];",
+							"    ",
+							"    pm.environment.set(\"jwt-token\", token);",
+							"    const final = pm.environment.get(\"jwt-token\")",
+							"    const date = new Date(JSON.parse(require('atob')(final.split('.')[1])).exp*1000)",
+							"    console.log(\"expires:\",date)",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n    \"userName\": \"johndoe\",\n    \"password\":\"123456\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/auth/login/"
+			},
+			"response": []
+		},
+		{
+			"name": "login - teacher",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"if (pm.response.code === 200) {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    ",
+							"    var token = jsonData[\"access_token\"];",
+							"    ",
+							"    pm.environment.set(\"jwt-token\", token);",
+							"    const final = pm.environment.get(\"jwt-token\")",
+							"    const date = new Date(JSON.parse(require('atob')(final.split('.')[1])).exp*1000)",
+							"    console.log(\"expires:\",date)",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n    \"userName\": \"vmaroni\",\n    \"password\":\"123456\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/auth/login/"
+			},
+			"response": []
+		},
+		{
+			"name": "login - student",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"",
+							"if (pm.response.code === 200) {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    ",
+							"    var token = jsonData[\"access_token\"];",
+							"    ",
+							"    pm.environment.set(\"jwt-token\", token);",
+							"    const final = pm.environment.get(\"jwt-token\")",
+							"    const date = new Date(JSON.parse(require('atob')(final.split('.')[1])).exp*1000)",
+							"    console.log(\"expires:\",date)",
+							"}"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \n    \"userName\": \"dBlanco\",\n    \"password\":\"123456\"\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{baseUrl}}/auth/login/"
+			},
+			"response": []
+		}
+	]
+}
