@@ -20,7 +20,8 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "localseed": "dotenv -e .env.local -- npx prisma migrate dev --name init && dotenv -e .env.local -- ts-node prisma/seed.ts",
     "localstudio": "dotenv -e .env.local -- npx prisma studio",
-    "dockerseed": "dotenv -e .env.docker -- npx prisma migrate deploy && dotenv -e .env.docker -- ts-node prisma/seed.ts"
+    "dockerseed": "dotenv -e .env.docker -- npx prisma migrate deploy && dotenv -e .env.docker -- ts-node prisma/seed.ts",
+    "gitdockerseed": "npx prisma migrate deploy && ts-node prisma/seed.ts"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
