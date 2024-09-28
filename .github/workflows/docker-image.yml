@@ -20,7 +20,6 @@ jobs:
       - name: Set Docker image tag and environment variables
         id: vars
         run: |
-          echo "IMAGE_TAG=school-blog-back:$(date +%s)" >> $GITHUB_ENV
           echo "PSQL_URL=${{ secrets.PSQL_URL }}" >> $GITHUB_ENV
           echo "JWT_SECRET=${{ secrets.JWT_SECRET }}" >> $GITHUB_ENV
 
@@ -29,10 +28,7 @@ jobs:
           docker build \
             --build-arg PSQL_URL=${{ secrets.PSQL_URL }} \
             --build-arg JWT_SECRET=${{ secrets.JWT_SECRET }} \
-            -f Dockerfile-git -t davidlblanco/${{ env.IMAGE_TAG }} .
+            -f Dockerfile-git -t davidlblanco/latest .
 
       - name: Push Docker Image to Docker Hub
-        run: docker push davidlblanco/${{ env.IMAGE_TAG }}
-#  docker build -t davidlblanco/school-blog-back:test .
-# docker push davidlblanco/school-blog-back:test
-
+        run: docker push davidlblanco/latest

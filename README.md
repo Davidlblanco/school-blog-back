@@ -99,3 +99,18 @@ docker compose down --rmi all --volumes --remove-orphans
 
 para criar um banco local sh create-local-db.sh
 para rodar os testes obrigatoria mente deve se ter um .env.local e um docker rodando com o banco
+
+# School blog back
+
+Esta é uma aplicação feita para fins de estudo como trabalho de pós graduação na faculdade FIAP.
+A api e banco de dados creados aqui deverão implementar a parte de backend de um blog em que os professores postam materias para os alunos.
+
+## Maneiras de rodar o projeto:
+
+### Quick run:
+
+Caso os professores queiram rodar localmente a aplicação sem preocupação de instalação de dependencias foi criado um docker compose:
+
+```bash
+$ docker compose-up
+```
