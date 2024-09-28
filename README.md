@@ -1,109 +1,11 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-
-<!-- generating DB -->
-
-docker run --name blog-psql -p 5432:5432 -e POSTGRES_PASSWORD=education -d postgres
-docker exec -it blog-psql psql -U postgres
-CREATE DATABASE blog
-
-npx prisma migrate dev --name init
-npm run seed
-npx prisma studio
-
-\*\*\* docker cleaning
-docker compose down --rmi all --volumes --remove-orphans
-
-para criar um banco local sh create-local-db.sh
-para rodar os testes obrigatoria mente deve se ter um .env.local e um docker rodando com o banco
-
 # School blog back
 
 Esta é uma aplicação feita para fins de estudo como trabalho de pós graduação na faculdade FIAP.
 A api e banco de dados creados aqui deverão implementar a parte de backend de um blog em que os professores postam materias para os alunos.
+
+Este projeto consiste em uma aplicação nest.js que utiliza o prisma como ORM e se conecta a um banco de dados postgres.
+Os endpoints do projeto são todos testados usando a tecnologia jest
+junto ao repositório está contido o postman e seus enviroments para testar a aplicação local e produção
 
 ## Maneiras de rodar o projeto:
 
@@ -113,4 +15,58 @@ Caso os professores queiram rodar localmente a aplicação sem preocupação de 
 
 ```bash
 $ docker compose-up
+```
+
+Assim que rodar o comando o app estara disponível em: `http://localhost:3000/`.
+O enviroment necessário para rodar o docker compose up está no repositório `.env.docker`.
+
+### Dev run:
+
+Para rodar o app em ambiente de desenvolvimento são necessárias 3 passos:
+
+1 - Criar um banco docker:
+
+- está diponível neste repositório um script que cria popula e conecta a um banco docker:
+
+```bash
+$ sh create-local-db.sh
+```
+
+2 - abrir outro terminal e instalar pacotes:
+
+```bash
+$ npm i
+```
+
+3 - rodar npm em modo de desenvolvimento:
+
+```bash
+$ npm run dev
+```
+
+Assim que rodar os comandos o app estara disponível em: `http://localhost:3000/`.
+O enviroment necessário para rodar o docker compose up está no repositório `.env.local`.
+
+## Comandos de teste
+
+```bash
+# teste único
+$ npm run test
+
+# teste modo de desenvolvimento
+$ npm run test:watch
+```
+
+# deploy
+
+Esta aplicação conta com um sistema automatizado de deploy para a parte da api.
+
+- Existe um banco de produção que foi hospedado no render.com
+- O github.secrets contem o endereço pra este banco e o jwt_secret
+- A action cria uma imagem docker de produção com essas informações
+- A action sobe uma imagem para o repositorio no docker hub image:latest
+- A render.com le image:latest no docker hub e disponibiliza na seguinte url:
+
+```bash
+https://school-blog-back-1727553447.onrender.com/
 ```
