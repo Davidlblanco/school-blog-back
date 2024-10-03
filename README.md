@@ -1,91 +1,136 @@
-# School blog back
+# School Blog Backend
 
-Esta é uma aplicação feita para fins de estudo como trabalho de pós graduação na faculdade FIAP.
-A api e banco de dados criados aqui deverão implementar a parte de backend de um blog em que os professores postam materias para os alunos.
+Esta é uma aplicação desenvolvida como trabalho de pós-graduação na FIAP. O objetivo é criar o backend de um blog onde professores postam materiais para os alunos.
 
-Este projeto consiste em uma aplicação nest.js que utiliza o prisma como ORM e se conecta a um banco de dados postgres.
-Os endpoints do projeto são todos testados usando a tecnologia jest
-junto ao repositório está contido o postman e seus enviroments para testar a aplicação local e produção.
-junto ao repositório tambem foram fornecidos enviroments de exemplo para rodar a aplicaçnao local com um banco numa maquina em docker.
+A aplicação utiliza **NestJS** com **Prisma** como ORM, conectando-se a um banco de dados **PostgreSQL**. Todos os endpoints são testados com **Jest**, e há ambientes configurados no **Postman** para testes locais e de produção.
 
-## Maneiras de rodar o projeto:
+## Índice
 
-### Quick run:
+- [Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [Maneiras de Rodar o Projeto](#maneiras-de-rodar-o-projeto)
+  - [Quick Run](#quick-run)
+  - [Dev Run](#dev-run)
+- [Arquitetura](#arquitetura)
+  - [Fluxo Simplificado da API](#fluxo-simplificado-da-api)
+  - [Estrutura de Diretórios](#estrutura-de-diretórios)
+- [Testes](#testes)
+- [Deploy](#deploy)
+- [Desafios](#desafios)
 
-Caso os professores queiram rodar localmente a aplicação sem preocupação de instalação de dependencias foi criado um docker compose:
+## Tecnologias Utilizadas
+
+- **NestJS**
+- **Prisma ORM**
+- **PostgreSQL**
+- **Docker**
+- **Jest**
+- **GitHub Actions**
+- **Render.com**
+
+## Maneiras de Rodar o Projeto
+
+### Quick Run
+
+Para rodar localmente sem instalar dependências, utilize o Docker Compose:
 
 ```bash
 $ docker compose up
 ```
 
-Assim que rodar o comando o app estara disponível em: `http://localhost:3000/`.
-O enviroment necessário para rodar o docker compose up está no repositório `.env.docker`.
+O aplicativo estará disponível em `http://localhost:3000/`. O arquivo `.env.docker` contém as variáveis de ambiente necessárias.
 
-### Dev run:
+### Dev Run
 
-Para rodar o app em ambiente de desenvolvimento são necessárias 3 passos:
+Para rodar o app em ambiente de desenvolvimento, siga os passos:
 
-1 - Criar um banco docker:
+1. Criar o banco de dados com Docker:
 
-- Está diponível neste repositório um script que cria popula e conecta a um banco que roda no docker:
+   ```bash
+   $ sh create-local-db.sh
+   ```
+
+2. Instalar os pacotes Node.js:
+
+   ```bash
+   $ npm i
+   ```
+
+3. Rodar o app em modo de desenvolvimento:
+
+   ```bash
+   $ npm run dev
+   ```
+
+O aplicativo estará disponível em `http://localhost:3000/`. O arquivo `.env.local` contém as variáveis de ambiente para desenvolvimento.
+
+## Arquitetura
+
+Na arquitetura do projeto, são utilizados os conceitos de **Controllers**, **Providers** e **Modules** do NestJS.
+
+- **Controllers**: Porta de entrada da aplicação, recebem requisições e enviam respostas.
+
+  ![Controllers](https://docs.nestjs.com/assets/Controllers_1.png)
+
+- **Providers**: Fornecem serviços injetáveis e podem ser compartilhados entre diferentes partes da aplicação.
+
+  ![Providers](https://docs.nestjs.com/assets/Components_1.png)
+
+- **Modules**: Organizam controllers e providers, criando a estrutura modular do NestJS.
+
+  ![Modules](https://docs.nestjs.com/assets/Modules_1.png)
+
+### Fluxo Simplificado da API
+
+1. O cliente envia uma requisição `POST` para `/auth/login` com `username` e `password`.
+2. Recebe um token JWT válido por 24 horas.
+3. Com o token, o usuário pode acessar os endpoints protegidos.
+4. A API valida o acesso baseado nos papéis: `ADMIN`, `TEACHER` e `STUDENT`.
+5. DTOs validam os dados recebidos.
+6. O service processa a lógica de negócio e acessa o banco de dados.
+
+![Fluxo](./fluxo_api_blog_fiap.jpg)
+
+### Estrutura de Diretórios
+
+- `./prisma` - Schemas de dados, migrações e seed.
+- `./src` - Código fonte da aplicação NestJS.
+  - `./src/user` - CRUD de usuários.
+  - `./src/articles` - CRUD de artigos.
+  - `./src/auth` - Fluxos de autenticação.
+  - `./src/lib` - Utilitários compartilhados.
+- `./create-local-db.sh` - Script para criar o banco local.
+- `./docker-compose.yml` - Docker Compose para rodar a aplicação e o banco de dados.
+- `./Dockerfile-git` - Dockerfile para CI/CD no GitHub Actions.
+
+## Testes
+
+Os testes utilizam o **Jest** e simulam chamadas aos endpoints da aplicação:
 
 ```bash
-$ sh create-local-db.sh
-```
-
-2 - Abrir outro terminal e instalar pacotes node:
-
-```bash
-$ npm i
-```
-
-3 - Rodar npm em modo de desenvolvimento:
-
-```bash
-$ npm run dev
-```
-
-Assim que rodar os comandos o app estara disponível em: `http://localhost:3000/`.
-O enviroment necessário para rodar o docker compose up está no repositório `.env.local`.
-
-## Comandos de teste
-
-```bash
-# teste único
+# Rodar todos os testes
 $ npm run test
 
-# teste modo de desenvolvimento
+# Rodar testes em modo de desenvolvimento
 $ npm run test:watch
 ```
 
-# deploy
+Os arquivos `.spec.ts` contêm os testes de unidade e integração para os módulos.
 
-Esta aplicação conta com um sistema automatizado de deploy para a parte da api.
+## Deploy
 
-- Existe um banco de produção que foi hospedado no render.com
-- O github.secrets contem o endereço pra este banco e o jwt_secret
-- A action cria uma imagem docker de produção com essas informações
-- A action sobe uma imagem para o repositorio no docker hub image:latest
-- A render.com le image:latest no docker hub e disponibiliza na seguinte url:
+A aplicação conta com um processo automatizado de deploy:
 
-```bash
-https://school-blog-back-1727553447.onrender.com/
-```
+1. O banco de dados de produção está hospedado no **Render.com**.
+2. As secrets de produção estão armazenadas no GitHub.
+3. A GitHub Action cria uma imagem Docker de produção e a envia para o Docker Hub.
+4. A **Render.com** lê a imagem `latest` e a disponibiliza na URL:
 
-# desafios
+   ```bash
+   https://school-blog-back-1727553447.onrender.com/
+   ```
 
-Os maiores desafios durante o desenvolvimento foram:
+## Desafios
 
-1 - Docker, eu não tinha quase nehuma experiencia com docker e queria entregar algo que rodasse na maquina dos professores com apenas 1 comando. Acabou que estou aplicando o docker algumas situações diferentes neste repositorio.
-
-A primeira foi rodando os bancos em containers locais
-
-A segunda é o docker file que é utilizado no comando `docker compose up`.
-
-A terceira é o Dockerfile-git que é utilizado na git action. Por não conter o enviroment de produção no repositorio git tive que fazer um docker file especial que pegasse os github secrets.
-
-2 - Banco de dados, essa é uma das primeiras vezes que trabalhei com banco. Por ter escolhido o postgrees, não sabia muito bem como faria o deploy do banco. Sempre vi bastaante o pessoal trabalhando com mongo que já te oferece uma hospedagem, mas nao sabia como fazer isso com postgrees.
-Cheguei pensar em colocar no rds da aws pois fiz isso a pouco tempo no trabalho mas por sorte, vi que a render.com tambem hospedava banco e acabei hospedando meu banco de produção la.
-Tive alguns problemas também para entender os comandos do prisma e o que eles faziam e como modelar e semear dados. Escolhi usar o prisma por ser uma recomendação da documentacnao do nest.js.
-
-3 - A parte de testes nunca tinha trabalhado com isso, usei bastante a documentação do nest que ja recomenda o uso do jest, então parece que o nest.js casou bem com a proposta da faculdade.
+1. **Docker**: Primeiro projeto em que utilizei Docker extensivamente, aplicando-o em diversas situações, desde o banco local até o Dockerfile para CI/CD.
+2. **Banco de Dados**: Primeira vez utilizando **PostgreSQL** e enfrentando desafios de deploy e modelagem com **Prisma**.
+3. **Testes**: Utilizar o **Jest** foi um desafio inicial, mas a documentação do **NestJS** ajudou a integrar bem os testes à aplicação.
