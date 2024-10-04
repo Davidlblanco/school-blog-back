@@ -34,7 +34,7 @@ A aplicação utiliza **NestJS** com **Prisma** como ORM, conectando-se a um ban
 Para rodar localmente sem instalar dependências, utilize o Docker Compose:
 
 ```bash
-$ docker compose up
+ docker compose up
 ```
 
 O aplicativo estará disponível em `http://localhost:3000/`. O arquivo `.env.docker` contém as variáveis de ambiente necessárias.
@@ -46,19 +46,19 @@ Para rodar o app em ambiente de desenvolvimento, siga os passos:
 1. Criar o banco de dados com Docker:
 
    ```bash
-   $ sh create-local-db.sh
+    sh create-local-db.sh
    ```
 
 2. Instalar os pacotes Node.js:
 
    ```bash
-   $ npm i
+    npm i
    ```
 
 3. Rodar o app em modo de desenvolvimento:
 
    ```bash
-   $ npm run dev
+    npm run dev
    ```
 
 O aplicativo estará disponível em `http://localhost:3000/`. O arquivo `.env.local` contém as variáveis de ambiente para desenvolvimento.
@@ -108,10 +108,10 @@ Os testes utilizam o **Jest** e simulam chamadas aos endpoints da aplicação:
 
 ```bash
 # Rodar todos os testes
-$ npm run test
+ npm run test
 
 # Rodar testes em modo de desenvolvimento
-$ npm run test:watch
+ npm run test:watch
 ```
 
 Os arquivos `.spec.ts` contêm os testes de unidade e integração para os módulos.
