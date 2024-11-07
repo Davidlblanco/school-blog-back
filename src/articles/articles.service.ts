@@ -11,6 +11,13 @@ export class ArticlesService {
   ): Promise<Article | null> {
     return this.prisma.article.findUnique({
       where: articleWhereUniqueInput,
+      include: {
+        creator: {
+          select: {
+            name: true,
+          },
+        },
+      },
     });
   }
 
