@@ -57,7 +57,35 @@ export class ArticleController {
     @Query('cursor') cursor?: string,
     @Query('where') where?: string,
     @Query('orderBy') orderBy?: string,
-  ): Promise<Article[] | HttpException> {
+
+    @Query('rows') rows?: boolean,
+  ): Promise<Partial<Article>[] | HttpException> {
+    try {
+      const params = {
+        skip: skip ? parseInt(skip) : undefined,
+        take: take ? parseInt(take) : undefined,
+        cursor: cursor ? JSON.parse(cursor) : undefined,
+        where: where ? JSON.parse(where) : undefined,
+        orderBy: orderBy ? JSON.parse(orderBy) : undefined,
+        rows,
+      };
+      const articles = await this.articleService.articles(params);
+
+      return articles;
+    } catch (e) {
+      this.throwExeption(e);
+    }
+  }
+  @Get('Rows')
+  @UseGuards(AuthGuard)
+  @Roles('ADMIN', 'TEACHER', 'STUDENT')
+  async getArticleRows(
+    @Query('skip') skip?: string,
+    @Query('take') take?: string,
+    @Query('cursor') cursor?: string,
+    @Query('where') where?: string,
+    @Query('orderBy') orderBy?: string,
+  ): Promise<Partial<Article>[] | HttpException> {
     try {
       const params = {
         skip: skip ? parseInt(skip) : undefined,
@@ -73,7 +101,6 @@ export class ArticleController {
       this.throwExeption(e);
     }
   }
-
   @Delete(':id')
   @UseGuards(AuthGuard)
   @Roles('ADMIN', 'TEACHER')

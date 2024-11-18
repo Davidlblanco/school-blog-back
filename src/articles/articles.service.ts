@@ -27,15 +27,25 @@ export class ArticlesService {
     cursor?: Prisma.ArticleWhereUniqueInput;
     where?: Prisma.ArticleWhereInput;
     orderBy?: Prisma.ArticleOrderByWithRelationInput;
-  }): Promise<Article[]> {
-    const { skip, take, cursor, where, orderBy } = params;
-    return this.prisma.article.findMany({
+    rows?: boolean;
+  }): Promise<Partial<Article>[]> {
+    const { skip, take, cursor, where, orderBy, rows } = params;
+    const result = await this.prisma.article.findMany({
       skip,
       take,
       cursor,
       where,
       orderBy,
+      select: rows
+        ? {
+            id: true,
+            title: true,
+            content: true,
+            active: true,
+          }
+        : undefined,
     });
+    return result;
   }
 
   async createArticle(data: Prisma.ArticleCreateInput): Promise<Article> {
