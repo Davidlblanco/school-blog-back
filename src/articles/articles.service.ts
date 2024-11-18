@@ -42,6 +42,11 @@ export class ArticlesService {
             title: true,
             content: true,
             active: true,
+            creator: {
+              select: {
+                name: true,
+              },
+            },
           }
         : undefined,
     });
