@@ -9,6 +9,7 @@ import {
   Patch,
   Post,
   Query,
+  Request,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -108,12 +109,17 @@ export class UserController {
 
   @Patch(':id')
   @UseGuards(AuthGuard)
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'TEACHER', 'STUDENT')
   async updateUser(
     @Param('id') id: string,
     @Body()
     body: Partial<CreateUserDto>,
+    @Request() req: any,
   ): Promise<Partial<User> | HttpException> {
+    const user = req.user;
+    if (user.role !== 'ADMIN' && user.id !== id) {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
     try {
       const passWordBuffer = passwordBuffer(body.password);
       const updatedUser = await this.userService.updateUser({
