@@ -121,7 +121,7 @@ export class UserController {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
     try {
-      if (user.role !== 'ADMIN' && user.id === id) {
+      if (user.role !== 'ADMIN') {
         delete body.type;
         delete body.active;
       }
