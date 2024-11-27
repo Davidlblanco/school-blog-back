@@ -121,6 +121,10 @@ export class UserController {
       throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
     }
     try {
+      if (user.role !== 'ADMIN' && user.id === id) {
+        delete body.type;
+        delete body.active;
+      }
       const passWordBuffer = passwordBuffer(body.password);
       const updatedUser = await this.userService.updateUser({
         where: { id },
