@@ -35,10 +35,15 @@ export class UserController {
 
   @Get(':id')
   @UseGuards(AuthGuard)
-  @Roles('ADMIN')
+  @Roles('ADMIN', 'TEACHER', 'STUDENT')
   async getUser(
     @Param('id') id: string,
+    @Request() req: any,
   ): Promise<Partial<User> | HttpException> {
+    const user = req.user;
+    if (user.role !== 'ADMIN' && user.id !== id) {
+      throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    }
     try {
       const user = await this.userService.user({
         id,
@@ -106,14 +111,12 @@ export class UserController {
       this.throwExeption(e);
     }
   }
-
   @Patch(':id')
   @UseGuards(AuthGuard)
   @Roles('ADMIN', 'TEACHER', 'STUDENT')
   async updateUser(
     @Param('id') id: string,
-    @Body()
-    body: Partial<CreateUserDto>,
+    @Body() body: Partial<CreateUserDto>,
     @Request() req: any,
   ): Promise<Partial<User> | HttpException> {
     const user = req.user;
@@ -125,10 +128,18 @@ export class UserController {
         delete body.type;
         delete body.active;
       }
-      const passWordBuffer = passwordBuffer(body.password);
+
+      const updateData: any = { ...body };
+
+      if (body.password) {
+        updateData.password = passwordBuffer(body.password);
+      } else {
+        delete updateData.password;
+      }
+
       const updatedUser = await this.userService.updateUser({
         where: { id },
-        data: { ...body, password: passWordBuffer },
+        data: updateData,
       });
       return { id: updatedUser.id, name: updatedUser.name };
     } catch (e) {

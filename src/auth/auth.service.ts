@@ -20,7 +20,7 @@ export class AuthService {
 
     const passWordDecoder = passwordDecoder(user[0]?.password);
 
-    if (passWordDecoder !== pass || user.length > 1) {
+    if (passWordDecoder !== pass || user.length > 1 || !user[0].active) {
       throw new UnauthorizedException();
     }
     const payload = {
