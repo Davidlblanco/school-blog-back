@@ -11,7 +11,7 @@ export class CreateArticleDto {
   creator_id?: string;
 
   @IsOptional()
-  file?: any; // If you're uploading files, you can customize the type depending on your logic
+  file?: any;
 
   @IsOptional()
   filePath?: string;
